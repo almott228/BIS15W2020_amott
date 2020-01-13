@@ -4,12 +4,13 @@ output:
   html_document: 
     keep_md: yes
 ---
-```{r}
-#install.packages("tidyverse")
-```
+
+## Load the libraries
 ```{r}
 library("tidyverse")
 ```
+
+## Questions
 1. Navigate to the R console and calculate the following expressions.  
   + 5 - 3 * 2  
   + 8 / 2 ** 2  
@@ -17,7 +18,6 @@ library("tidyverse")
 ```{r}
 5 - 3 * 2
 8 / 2 **2
-
 ```
   
 2. Did any of the results in #1 surprise you? Write two programs that calculate each expression such that the result for the first example is 4 and the second example is 16.  
@@ -35,18 +35,19 @@ pi <- 3.14159265359
 ```{r}
 class(pi)
 ```
+
 5. You have decided to use your new analytical powers in R to become a professional gambler. Here are your winnings and losses this week. Note that you don't gamble on the weekends!  
 ```{r, eval=F, echo=T}
 blackjack <- c(140, -20, 70, -120, 240, NA, NA)
 roulette <- c(60, 50, 120, -300, 10, NA, NA)
 ```
 
-a. Build a new vector called `days` for the days of the week.
-ˆ
+a. Build a new vector called `days` for the days of the week.  
 ```{r}
 days <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 ```
 
+We will use `days` to name the elements in the poker and roulette vectors.
 ```{r, eval=F, echo=T}
 names(blackjack) <- days
 names(roulette) <- days
@@ -56,10 +57,16 @@ b. Calculate how much you won or lost in blackjack over the week.
 ```{r}
 sum(blackjack)
 ```
-c. The result was NA because there is missing data for saturday and sunday. We can recalculate it with the NA removed.
 
+c. The result was NA because there is missing data for saturday and sunday. We can recalculate it with the NA removed.
 ```{r}
 sum(blackjack, na.rm=TRUE)
+```
+
+Here is an alternate approach that can be helpful if you want to remove NA's more globally.
+```{r}
+blackjack2 <- na.omit(blackjack)
+sum(blackjack2)
 ```
 
 d. Calculate how much you won or lost in roulette over the week. 
@@ -83,12 +90,26 @@ sum(blackjack[5]+roulette[5])
 ```
 Monday, Wednesday, Friday are lucky days and thursday is very unlucky.
 
+Here is an example using `na.omit()`
+```{r}
+total_week <- na.omit(blackjack + roulette)
+total_week
+```
+
 f. Should you stick to blackjack or roulette? Write a program that verifies this below.  
 ```{r}
 sum(blackjack, na.rm = TRUE)
 sum(roulette, na.rm = TRUE)
 sum(blackjack, na.rm = TRUE) > sum(roulette, na.rm = TRUE)
-
 ```
+
+Another option
+```{r}
+total_blackjack <- sum(blackjack, na.rm = TRUE)
+total_roulette <- sum(roulette, na.rm = TRUE)
+total_blackjack>total_roulette
+```
+
 Stick to Blackjack!
 
+## Nice work! I added a few options for you to consider. My only suggestion would be to use comments so you can remember what you were thinking for future reference. Also, don't  forget to knit!
