@@ -594,11 +594,12 @@ hra_ratio_new %>%
 ## 16 contopus     virens             13.8            4.07      1.14       4.64
 ## 17 motacilla    alba               21.2            4.44      1.33       5.89
 ```
-#5.15g is the lowest mass with an hra mass ratio >= 4.0
+#5.15g is the lowest mass with an hra mass ratio >= 4.0 (Regulus regulus)
 
 11. Do a search online; what is the common name of the bird from #8 above? Place a link in your markdown file that takes us to a webpage with information on its biology.  
 [Canada Warbler] (https://www.allaboutbirds.org/guide/Canada_Warbler/id#)
-
+#I thought the question was refering to #8 on the bird list (which was the canada warbler). I'm going to leave the link there because canada warbler are the best, but here is a link to the Goldcrest. 
+[Goldcrest] (https://en.wikipedia.org/wiki/Goldcrest)
 
 12. What is the `hra.mass.ratio` for an ostrich? Show your work, please.
 
