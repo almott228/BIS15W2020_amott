@@ -185,16 +185,29 @@ tail(highest_catch, n=1)
 coastal_fish <- 
   fisheries_tidy2 %>% 
   filter(ISSCAAP_spgroupname == "Miscellaneous coastal fishes")
-
 coastal_fish$ASFIS_sciname
+
 #I tried to use levels(coastal_fish$ASFIS_sciname) but it just gave me null
 ```
 
 17. Use the data to do at least one exploratory analysis of your choice. What can you learn?
 ```{r}
-
+total_2012 <- 
+  fisheries_tidy2 %>% 
+  filter(year=="2012") %>% 
+  summarize(total_tonnes = sum(tonnes, na.rm = TRUE))
+total_2012
+  
 ```
 
+```{r}
+total_1950 <- 
+  fisheries_tidy2 %>% 
+  filter(year=="1950") %>% 
+  summarize(total_tonnes = sum(tonnes, na.rm = TRUE))
+total_1950
+```
+#I'm trying to see if the total tonnes of fishes harvested between 1950 and 2012 have increased or decreased.
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
