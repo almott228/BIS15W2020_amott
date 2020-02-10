@@ -1,12 +1,21 @@
 ---
 title: "Lab 1 Homework"
-author: "What is Your Name?"
+author: "Andrea Mott"
 date: "Winter 2020"
 output:
   html_document:
     theme: spacelab
     toc: no
 ---
+
+There is no R code file for Lab one so I can't really leave you comments, unfortunately. I'll try and just put some suggestions up to here from what I can see in your markdown:
+
+For "e" it would be a bit simpler to code this way-
+```{r}
+total_week <- blackjack + roulette
+total_week
+```
+
 
 ## Instructions
 Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code, keep track of your versions using git, and push your final work to our [GitHub repository](https://github.com/FRS417-DataScienceBiologists). I will randomly select a few examples of student work at the start of each session to use as examples so be sure that your code is working to the best of your ability.  
