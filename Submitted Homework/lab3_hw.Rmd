@@ -44,11 +44,17 @@ dim(homerange)
 ```
 
 ```{r}
+#this gives you the number of columns, not the names
 ncol(homerange)
+#this will give you column names
+#colnames(homerange)
 ```
 
 ```{r}
+#if you look at your output this gives a strange answer
 class(homerange)
+#this will give you variable classes
+#glimpse(homerange)
 ```
 
 ```{r}
@@ -70,6 +76,19 @@ as.factor(homerange$taxon)
 as.factor(homerange$order)
 ```
 #9 taxon levels, 51 order levels
+the question asks to display the levels (ie. the orders and taxa listed in the data)
+
+```{r}
+#homerange$taxon <- as.factor(homerange$taxon)
+#homerange$order <- as.factor(homerange$order)
+```
+```{r}
+#levels(homerange$taxon)
+```
+```{r}
+#levels(homerange$order)
+```
+
 
 6. Make a new dataframe `deer` that is limited to the mean mass, log10 mass, family, genus, and species of deer in the database. The family for deer is cervidae. Arrange the data in descending order by log10 mass. Which is the largest deer?  
 ```{r}
@@ -93,6 +112,8 @@ homerange %>%
 ```
 #Bitis schneideri or the Namaqua Dwarf Adder is a small species of viper (possibly the world's smallest viper). It has evolved a higher rate of reproduction than members of the family Viperidae. Scientists believe this is due to its high rate of depredation within the small coastal region between Namibia and South Africa
 
+#you can also use log10.hra to get the above answer
+
 8. You suspect that homerange and mass are correlated in birds. We need a ratio that facilitates exploration of this prediction. First, build a new dataframe called `hra_ratio` that is limited to genus, species, mean.mass.g, log10.mass, log10.hra. Arrange it in ascending order by mean mass in grams.  
 ```{r}
 hra_ratio <- filter(homerange, taxon=="birds")
@@ -107,8 +128,10 @@ hra_ratio %>%
 hra_ratio_new <- 
 hra_ratio %>% 
   mutate(hra.mass.ratio = log10.hra/log10.mass) %>% 
-  select(genus, species, mean.mass.g, hra.mass.ratio, log10.mass, log10.hra ) %>% 
+  #you did this select already when you amde hra_ratio
+  #select(genus, species, mean.mass.g, hra.mass.ratio, log10.mass, log10.hra ) %>% 
   arrange(desc(mean.mass.g))
+hra_ratio_new
 ```
 
 
