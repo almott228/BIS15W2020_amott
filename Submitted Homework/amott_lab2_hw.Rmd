@@ -19,7 +19,7 @@ library("tidyverse")
 ## Mammals Sleep
 For this assignment, we are going to use built-in data on mammal sleep patterns.  
 ```{r}
-print(msleep)
+msleep
 ```
 
 1. From which publication are these data taken from? Don't do an internet search; show the code that you would use to find out in R.
@@ -31,7 +31,7 @@ print(msleep)
 2. Put these data into a new object `sleep`. Make sure they are organized as a data frame.  
 ```{r}
 sleep <- data.frame(msleep)
-print(sleep)
+sleep
 ```
 
 
@@ -82,6 +82,20 @@ large <- data.frame(kg_lg = kg[kg>=200])
 print(large)
 ```
 
+
+Another shorter option-
+```{r}
+#large <- subset(sleep, bodywt >= 200)
+#large
+```
+
+```{r}
+#small <- subset(sleep, bodywt <= 1)
+#small
+```
+
+
+
 8. What is the mean weight for both the large and small mammals?
 ```{r}
 kg_small <- small$kg_sm
@@ -90,6 +104,15 @@ mean(kg_small)
 ```{r}
 kg_large <- large$kg_lg
 mean(kg_large)
+```
+
+And then following the above suggestion-
+```{r}
+#mean(large$bodywt)
+```
+
+```{r}
+#mean(small$bodywt)
 ```
 
 
@@ -107,6 +130,8 @@ mean(large_sleep)
 mean(small_sleep) < mean(large_sleep)
 ```
 #On average, small mammals (smammals) sleep longer than large mammals
+
+A comment to make your life easier, if in making your initial small and large sets you didn't filter out a single variable (weight), you could use those sets for all the following questions.
 
 10. What is the average sleep duration for small mammals as we have defined them?
 ```{r}
