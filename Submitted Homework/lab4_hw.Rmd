@@ -25,6 +25,8 @@ For this assignment we are going to work with a large dataset from the [United N
 1. Load the data `FAO_1950to2012_111914.csv` as a new object titled `fisheries`.
 ```{r}
 fisheries <- read_csv("data/FAO_1950to2012_111914.csv")
+#this works, just adding options
+#readr::read_csv(file = "data/FAO_1950to2012_111914.csv")
 ```
 
 
@@ -39,6 +41,7 @@ names(fisheries)
 3. What is the structure of the data? Show the classes of each variable.
 ```{r}
 str(fisheries)
+#again, just options- glimpse() will also work
 ```
 
 
@@ -46,6 +49,10 @@ str(fisheries)
 4. Think about the classes. Will any present problems? Make any changes you think are necessary below.
 ```{r}
 fisheries$Country <- as.factor(fisheries$Country)
+#other variables to consider changing
+#fisheries$`ISSCAAP group#` <- as.factor(fisheries$`ISSCAAP group#`)
+#fisheries$`ASFIS species#` <- as.factor(fisheries$`ASFIS species#`)
+#fisheries$`FAO major fishing area` <- as.factor(fisheries$`FAO major fishing area`)
 fisheries
 ```
 
@@ -117,9 +124,12 @@ fisheries_tidy2
 11. Based on the ASFIS_spcode, how many distinct taxa were caught as part of these data?
 ```{r}
 n_distinct(fisheries_tidy2$ASFIS_spcode)
+#if you want the output to have a little more context you could use something like-
+#fisheries_tidy2 %>% 
+  #summarize(n_taxa=n_distinct(ASFIS_spcode))
 ```
 
-
+##For the following questions it's not necessary to create a new dataframe each time you ask something of the data. You can just query the dataframe we created. Saves a bit of code space
 12. Which country had the largest overall catch in the year 2000?
 ```{r}
 largest_catch_2000 <- 
@@ -134,7 +144,7 @@ largest_catch_2000
 
 
 13. Which country caught the most sardines (_Sardina_) between the years 1990-2000?
-
+##This code filters for 1999 and 2000 instead of a range of years. To get the range you would want to change the class of year (as.numeric) and then request the range (year>=1990 & year<=2000)
 ```{r}
 most_sardines <- 
   fisheries_tidy2 %>% 
@@ -149,6 +159,7 @@ most_sardines
 
 
 14. Which five countries caught the most cephalopods between 2008-2012?
+##By only looking at the sciname you are actually only picking lines that couldn't be identified past class Cephalopoda. Pulling the ISSCAAP_spgroupname "Squids, cuttlefishes, octopuses" would get you the answer we're after 
 ```{r}
 top5_cephalopods <- 
   fisheries_tidy2 %>% 
@@ -165,6 +176,7 @@ top5_cephalopods
 
 
 15. Given the top five countries from question 12 above, which species was the highest catch total? The lowest?
+##This question was looking for the cephalopod spp with the highest and lowest catch. So you could take the code from above and instead of grouping my country, group by AFSIS_sciname
 ```{r}
 highest_catch <- 
 fisheries_tidy2 %>% 
@@ -188,9 +200,11 @@ coastal_fish <-
 coastal_fish$ASFIS_sciname
 
 #I tried to use levels(coastal_fish$ASFIS_sciname) but it just gave me null
+#after you filter, you can group by ASFIS_sciname which will also shorten the output
 ```
 
 17. Use the data to do at least one exploratory analysis of your choice. What can you learn?
+
 ```{r}
 total_2012 <- 
   fisheries_tidy2 %>% 
@@ -208,6 +222,7 @@ total_1950 <-
 total_1950
 ```
 #I'm trying to see if the total tonnes of fishes harvested between 1950 and 2012 have increased or decreased.
+##I don't see output for these lines. I think it's because you're asking it to sum something together when you haven't grouped anything sum (e.g. if you had asked it to group by country and then sum the total catch)
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
