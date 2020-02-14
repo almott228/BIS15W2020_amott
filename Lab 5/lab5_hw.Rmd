@@ -1,11 +1,11 @@
 ---
 title: "Lab 5 Homework"
-author: "Please Add Your Name Here"
-date: "Please Add the Date Here"
+author: "Andrea"
+date: "2/9/2020"
 output:
-  html_document:
+  html_document: 
+    keep_md: yes
     theme: spacelab
-    toc: no
 ---
 
 ```{r setup, include=FALSE}
@@ -45,33 +45,131 @@ amphibio <-
 
 ## Questions  
 **1. First, do some exploratory analysis of both data sets. What is the structure, column names, and dimensions?**  
+```{r}
+glimpse(amniota)
+colnames(amniota)
+```
+
+```{r}
+glimpse(amphibio)
+colnames(amphibio)
+```
 
 
 **2. How many total NAs are in each data set? Do these values make sense? Are NAs represented by any other values?**   
+#There aren't any "NAs" in amniota, because the NAs are represented by -999
+```{r}
+amniota %>% 
+  summarize(number_nas = sum(is.na(amniota)))
+amniota2 <- 
+amniota %>% 
+  na_if("-999") %>% 
+  purrr::map_df(~ sum(is.na(.))) %>% 
+  pivot_longer(everything(),
+    names_to= "variables",
+    values_to = "num_nas") %>% 
+  arrange(desc(num_nas))
+amniota2
+```
 
+```{r}
+amphibio %>% 
+  summarize(number_nas = sum(is.na(amphibio)))
+```
 
-**3. Make any necessary replacements in the data such that all NAs appear as "NA".**   
+**3. Make any necessary replacements in the data such that all NAs appear as "NA".** 
+```{r}
+amniota_NA <- 
+amniota %>% 
+  na_if("-999")
+amniota_NA
+```
+
 
 
 **4. Use the package `naniar` to produce a summary, including percentages, of missing data in each column for both data sets.**  
+```{r}
+naniar::miss_var_summary(amniota_NA)
+naniar::miss_var_summary(amphibio)
+```
 
 
 **5. For the `amniota` data, calculate the number of NAs in the `egg_mass_g` column sorted by taxonomic class; i.e. how many NAs are present in the `egg_mass_g` column in birds, mammals, and reptiles? Does this results make sense biologically? How do these results affect your interpretation of NAs?**  
-
+```{r}
+amniota_NA %>%
+  group_by(class) %>%
+  select(class, egg_mass_g) %>% 
+  naniar::miss_var_summary(order=T)
+```
+#It makes sense that 100% of the egg mass data is missing for mammals because they don't lay eggs.However, all birds lay eggs and still half of the egg masses are missing. It makes it difficult to interpret NAs because in the case of mammals, its NA because mammals don't lay eggs, where as the NAs present in the bird egg mass, is because the data wasn't collected. All birds lay eggs.
 
 **6. Which taxonomic classes are represented in the data? Summarize this in a chart then make a barplot that shows the proportion of observations in each taxonomic class.**
 
+```{r}
+table(amniota_NA$class)
+amniota_NA %>% 
+  ggplot(aes(x = class))+
+  geom_bar(stat = "count")
+```
 
 **7. Let's explore the taxonomic composition of the data a bit more. How many genera are represented by taxonomic class? Present this as a data table and bar plot.**
+```{r}
+amniota_NA %>% 
+  group_by(class) %>%
+  summarise(n_genera = n_distinct(genus))
+
+amniota_NA %>% 
+  group_by(class) %>%
+  summarise(n_genera = n_distinct(genus)) %>% 
+  ggplot(aes(x = class, y = n_genera))+
+  geom_bar(stat = "identity")
+
+```
 
 
 **8. Lastly, how many species are represented in each taxonomic class? Present this as a data table and bar plot.**
+```{r}
+amniota_NA %>% 
+  group_by(class) %>%
+  summarise(n_species = n_distinct(species))
+
+amniota_NA %>% 
+  group_by(class) %>%
+  summarise(n_species = n_distinct(species)) %>% 
+  ggplot(aes(x = class, y = n_species))+
+  geom_bar(stat = "identity")
+
+```
 
 
 **9. The `amphibio` data includes information on ecology. Each species is classified as fossorial, terrestrial, aquatic, or arboreal. How many species are in each of these categories? Make a bar plot to visualize these results. Which category is most/ least represented in the data?**
+```{r}
+amphibio2 <-
+  amphibio %>% 
+  pivot_longer(Fos:Arb,
+               names_to = "classification",
+               values_to = "Count")
+amphibio2 %>% 
+  group_by(classification) %>%
+  summarise(n_species = sum(Count, na.rm = TRUE))
+amphibio2
 
+amphibio2 %>% 
+  group_by(classification) %>%
+  summarise(n_species = sum(Count, na.rm = TRUE)) %>% 
+  ggplot(aes(x = classification, y = n_species, na.rm = TRUE))+
+  geom_bar(stat = "identity")
+```
+#Fossorial has the least and terrestrial has the most
 
 **10. For the amphibio data, we are interested to know if body size is correlated with litter size? Make a plot that shows this relationship. You should notice that there are outliers. Can you think of a way to identify the outliers for both body size and litter size? What happens when you then re-plot the data?**
+```{r}
+amphibio2 %>% 
+  filter(Body_size_mm < 500) %>% 
+  filter(Litter_size_min_n < 15000) %>% 
+  ggplot(mapping=aes(x=Body_size_mm, y=Litter_size_min_n))+
+  geom_jitter(na.rm = TRUE)+geom_smooth(method=lm, se=T)
+```
 
 
 ## Push your final code to GitHub!
