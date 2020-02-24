@@ -1,11 +1,11 @@
 ---
 title: "Lab 7 Homework"
-author: "Please Add Your Name Here"
-date: "`r Sys.Date()`"
+author: "Andrea MOtt"
+date: "2/23/2020"
 output:
-  html_document:
+  html_document: 
+    keep_md: yes
     theme: spacelab
-    toc: no
 ---
 
 ```{r setup, include=FALSE}
@@ -29,12 +29,67 @@ UC_admit <- readr::read_csv("data/UC_admit.csv")
 ```
 
 **1. Use the function(s) of your choice to get an idea of the overall structure of the data frame, including its dimensions, column names, variable classes, etc. As part of this, determine if there are NA's and how they are treated.**  
+```{r}
+glimpse(UC_admit)
+colnames(UC_admit)
+anyNA(UC_admit)
+```
+
+```{r}
+UC_admit %>% 
+  purrr::map_df(~ sum(is.na(.))) %>% 
+  pivot_longer(everything(),
+    names_to= "variables",
+    values_to = "num_nas") %>% 
+  arrange(desc(num_nas))
+```
 
 
 **2. The president of UC has asked you to build a shiny app that shows admissions by ethnicity across all UC campuses. Your app should allow users to explore year, campus, and admit category as interactive variables. Use shiny dashboard and try to incorporate the aesthetics you have learned in ggplot to make the app neat and clean.**
+```{r}
+lapply(UC_admit$Academic_Yr, as.factor)
+```
 
+```{r}
+
+ui <- fluidPage(
+   selectInput("x", "Select X Variable", choices = c("Category", "Academic_Yr", "Ethnicity"),
+              selected = "Ethnicity"),
+  plotOutput("plot", width = "1000px", height = "400px")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+     ggplot(UC_admit, aes_string(x = "Campus", y = "FilteredCountFR", fill = input$x)) + 
+      geom_bar(stat = "identity", position = "dodge") + 
+      theme(axis.text.x = element_text(angle = 60, hjust = 1), axis.text = element_text(size = 18), axis.title = element_text(size=18))
+  })
+
+}
+
+shinyApp(ui, server)
+```
 
 **3. Make alternate version of your app above by tracking enrollment at a campus over all of the represented years while allowing users to interact with campus, category, and ethnicity.**
+```{r}
+
+ui <- fluidPage(
+   selectInput("x", "Select X Variable", choices = c("Category", "Academic_Yr", "Ethnicity"),
+              selected = "Ethnicity"),
+  plotOutput("plot", width = "1000px", height = "400px")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+     ggplot(UC_admit, aes_string(x = "Campus", y = "Academic_Yr", fill = input$x)) + 
+      geom_bar(stat = "identity", position = "dodge") + 
+      theme(axis.text.x = element_text(angle = 60, hjust = 1), axis.text = element_text(size = 18), axis.title = element_text(size=18))
+  })
+
+}
+
+shinyApp(ui, server)
+```
 
 
 ## Push your final code to GitHub!
