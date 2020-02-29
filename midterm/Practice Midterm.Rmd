@@ -197,21 +197,23 @@ gapminder %>%
 
 **13. We are interested in the GDP for countries in the Middle East including all years in the data. First, separate all of the countries on the "Asia" continent. How many countries are listed and what are their names?**
 ```{r}
-gapminder2 %>% 
-  filter(continent=="Asia") %>% 
-  summarize(n_countries=n_distinct(country)) 
 
-```
-```{r}
-gapminder_asia <- 
-  gapminder2 %>% 
-  filter(continent=="Asia")
+gapminder %>% 
+  filter(continent=="Asia") %>% 
+  distinct(country)
+
 
 ```
 
 
 
 **14. Next, remove all of the countries from this list that are part of the Middle East and put them into a new object `gapminder_middleEast`. Add a new column to the data called "region" and make sure "Middle East" is specified for these countries.**
+```{r}
+gapminder_middleEast <- 
+  gapminder %>% 
+  filter(continent=="Asia") %>% 
+  mutate(region)
+```
 
 
 **15. Now show the gdpPercap for each country with the years as column names; i.e. one row per country.**

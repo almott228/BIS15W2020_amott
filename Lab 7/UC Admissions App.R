@@ -1,8 +1,13 @@
 library(shiny)
 library(tidyverse)
 
+UC_admit <- readr::read_csv("data/UC_admit.csv") 
+
+UC_admit2 <- UC_admit %>% 
+  mutate(Academic_Yr = as_factor(Academic_Yr))
+
 ui <- dashboardPage(
-  dashboardHeader(title = "UC Admissions Stats"),
+  dashboardHeader(title = "UC Admissions Ethnicity Stats"),
   dashboardSidebar(),
   dashboardBody(fluidPage(
     selectInput("x", "Select X Variable", choices = c("Category", "Campus", "Academic_Yr"),
@@ -22,3 +27,6 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
+
+
+

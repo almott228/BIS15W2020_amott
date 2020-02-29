@@ -1,0 +1,48 @@
+---
+title: "Goose Project Map"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("devtools")
+library(devtools)
+devtools::install_github("dkahle/ggmap")
+#install.packages("rgeos")
+#install.packages("rgdal")
+library(ggmap)
+library(tidyverse)
+library(rgeos)
+library(rgdal)
+```
+```{r}
+snow <- read_csv("~/Desktop/R Things/BIS15W2020_amott/Project/Data/SNGO_Colville_180965.csv")
+```
+```{r}
+snow %>% 
+  select(Latitude, Longitude) %>% 
+  summary()
+```
+```{r}
+lat <- c(39.20, 70.49)
+long <- c(-160.6, -110.2)
+bbox <- make_bbox(long, lat, f = 0.05)
+```
+
+```{r}
+b <- get_map(bbox, maptype = "terrain", source = "stamen")
+```
+```{r}
+ggmap(b)
+```
+
+```{r}
+ggmap(b) + 
+  geom_point(data = snow, aes(Longitude, Latitude), color = "maroon", size = 1, alpha = 0.7) +
+           labs(x = "Longitude", y = "Latitude", title = "Snow Goose '180965' Locations")+
+  theme(plot.title = element_text(size = rel(1.25), hjust = 0.5))
+```
+
