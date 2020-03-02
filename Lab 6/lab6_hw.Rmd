@@ -34,6 +34,7 @@ library("gapminder")
 The questions below are open-ended and have many possible solutions. Your approach should, where appropriate, include numerical summaries and visuals. Be creative; assume you are building an analysis that you would ultimately present to an audience of stakeholders. Feel free to try out different `geoms` if they more clearly present your results.  
 
 **1. Use the function(s) of your choice to get an idea of the overall structure of the data frame, including its dimensions, column names, variable classes, etc. As part of this, determine how NAs are treated in the data.**  
+##Note that starting with a function like glimpse() or str() first might let you know that the data is already pretty tidy and doesn't contain any NAs, and save you from running extra unnecessary code
 ```{r}
 anyNA(gapminder)
 gapminder %>% 
@@ -53,6 +54,7 @@ gapminder
 
 
 **2. Among the interesting variables in gapminder is life expectancy. How has global life expectancy changed between 1952 and 2007?** #to make each year show up on bar graph, need to specify year as a factor
+##If you wanted you could also do this as a line graph to show the relationship between the two variables over time.
 ```{r}
 gapminder %>% 
   group_by(year) %>% 
@@ -62,13 +64,11 @@ gapminder %>%
   labs(title = "Global Life Expectancy: 1952-2007",
        x = "Year", y = "Average Life Expectancy")+
   theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
-
 ```
 
 
 **3. How do the distributions of life expectancy compare for the years 1952 and 2007? _Challenge: Can you put both distributions on a single plot?_** 
-
-
+##A density plot ould also work here
 ```{r}
 gapminder %>% 
   group_by(year) %>% 
@@ -78,8 +78,6 @@ gapminder %>%
   labs(title = "Global Life Expectancy: 1952 vs 2007",
        x = "Year", y = "Age")+
   theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
-
-  
 ```
 
 **4. Your answer above doesn't tell the whole story since life expectancy varies by region. Make a summary that shows the min, mean, and max life expectancy by continent for all years represented in the data.**
@@ -108,7 +106,7 @@ lifeexp_continent %>%
 
 
 **6. We are interested in the relationship between per capita GDP and life expectancy; i.e. does having more money help you live longer?**
-
+##Note this question didn't ask for any scaling, just to plot the relationship, though this works fine
 ```{r}
 gapminder %>% 
   filter(gdpPercap<60000) %>% 
@@ -123,7 +121,7 @@ gapminder %>%
 ```
 
 **7. There is extreme disparity in per capita GDP. Rescale the x axis to make this easier to interpret. How would you characterize the relationship?**
-
+##I love the coloring by continent! You could also use geom_smoth to add a regression line and make the relationship that much more obvious.
 ```{r}
 gapminder %>% 
   filter(gdpPercap<60000) %>% 
@@ -139,6 +137,7 @@ gapminder %>%
 #I also wanted to see by continent
 
 **8. Which countries have had the largest population growth since 1952?**
+##Growth per million does make those numbers easier to read!
 ```{r}
 Top5_popgrowth <- 
   gapminder %>% 
