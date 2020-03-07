@@ -19,7 +19,7 @@ library(rgeos)
 library(rgdal)
 ```
 ```{r}
-snow <- read_csv("~/Desktop/R Things/BIS15W2020_amott/Project/Data/SNGO_Colville_180965.csv")
+snow <- read_csv("~/Desktop/BIS15W2020_amott/Project/Data/SNGO_Colville_180965.csv")
 ```
 ```{r}
 snow %>% 
